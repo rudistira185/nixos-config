@@ -1,0 +1,4 @@
+grafana = 3000
+prometheus = 9090
+node-exporter = 9100
+mikrotik-exporter = 9200
