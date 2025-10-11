@@ -89,11 +89,13 @@
     xclip
     kitty
     busybox
+    neofetch
 
     #tools
     unzip
     nmap
     curl
+    android-tools
 
     #fonts
     nerd-fonts.jetbrains-mono
@@ -142,6 +144,9 @@
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
+   cloudflared
+  #kernel
+   linuxKernel.kernels.linux_xanmod_stable
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -284,5 +289,14 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
+  
+
+ #boot
+  boot.kernelPackages = pkgs.linuxPackages;
+  boot.kernelParams = [
+  "quiet"
+  "loglevel=3"
+  "mitigations=off"
+];
 
 }
