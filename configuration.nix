@@ -45,6 +45,9 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+ 
+  #experimental
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
@@ -69,11 +72,14 @@
   users.users.carlos = {
     isNormalUser = true;
     description = "carlos";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirt" "kvm"];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirt" "kvm" "qemu"];
     packages = with pkgs; [
     #browser
      google-chrome
+     telegram-desktop
 
+    #multimedia
+     jamesdsp
 
     #develoment
      git
@@ -90,12 +96,21 @@
     kitty
     busybox
     neofetch
+    grc
 
     #tools
     unzip
     nmap
     curl
     android-tools
+    realvnc-vnc-viewer
+    lm_sensors
+    usbutils
+    hwdata
+    htop
+    gnome-tweaks
+    wineWowPackages.stable
+    bottles
 
     #fonts
     nerd-fonts.jetbrains-mono
@@ -113,6 +128,12 @@
      virt-manager
      dynamips
 
+   #gnome-extension
+   gnomeExtensions.vitals
+
+   #icons
+    whitesur-icon-theme
+
    #grafana
     grafana
     prometheus
@@ -128,7 +149,7 @@
   # Enable automatic login for the user.
   services.displayManager.autoLogin.enable = true;
   services.displayManager.autoLogin.user = "carlos";
-
+  
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
   systemd.services."getty@tty1".enable = false;
   systemd.services."autovt@tty1".enable = false;
@@ -161,6 +182,16 @@
    
   #tuned-adm
   services.tuned.enable = true;
+  #services.tuned.settings.profile = "desktop";
+
+  #glances
+  services.glances.enable = true;
+  
+  #nh
+  programs.nh.enable = true;
+
+  #vmware
+  virtualisation.vmware.host.enable = true;
 
   #docker
   virtualisation.docker = {
@@ -180,6 +211,8 @@
       runAsRoot = true;
     };
   };
+  #qemu
+   services.qemuGuest.enable = true;
 
   #grafana
    # Grafana + Prometheus + Exporter
@@ -275,6 +308,9 @@
 
   #Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  #gpu-screen-recorder
+  programs.gpu-screen-recorder.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
