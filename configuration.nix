@@ -4,12 +4,16 @@
 
 { config, pkgs, ... }:
 
+   let
+  stylix = builtins.fetchTarball "https://github.com/nix-community/stylix/archive/refs/heads/master.tar.gz";
+in
+
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
-
+    
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -111,7 +115,9 @@
     gnome-tweaks
     wineWowPackages.stable
     bottles
-
+    appimage-run
+    freerdp3
+    tigervnc
     #fonts
     nerd-fonts.jetbrains-mono
 
@@ -130,7 +136,9 @@
 
    #gnome-extension
    gnomeExtensions.vitals
-
+   gnomeExtensions.systemd-manager
+   gnomeExtensions.systemd-status
+   
    #icons
     whitesur-icon-theme
 
@@ -195,8 +203,8 @@
 
   #docker
   virtualisation.docker = {
-    enable = true;
-    enableOnBoot = true;
+    enable = false;
+    enableOnBoot = false;
     rootless.enable = true; # gunakan true jika ingin tanpa sudo
   };
   
@@ -294,7 +302,7 @@
    programs.virt-manager.enable = true;
 
   #Enable GNS3 Server
-  services.gns3-server.enable = true;
+  services.gns3-server.enable = false;
 
   #wireshark
   programs.wireshark.enable = true;
